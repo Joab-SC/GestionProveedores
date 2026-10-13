@@ -28,12 +28,49 @@
         /// </summary>
         private void InitializeComponent()
         {
-            components = new System.ComponentModel.Container();
+            dgv = new DataGridView();
+            button1 = new Button();
+            ((System.ComponentModel.ISupportInitialize)dgv).BeginInit();
+            SuspendLayout();
+            // 
+            // dgv
+            // 
+            dgv.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            dgv.Location = new Point(161, 64);
+            dgv.Name = "dgv";
+            dgv.RowHeadersWidth = 82;
+            dgv.Size = new Size(476, 256);
+            dgv.TabIndex = 0;
+            dgv.CellContentClick += dataGridView1_CellContentClick_1;
+            // 
+            // button1
+            // 
+            button1.AccessibleName = "probar";
+            button1.AccessibleRole = AccessibleRole.None;
+            button1.Location = new Point(291, 368);
+            button1.Name = "button1";
+            button1.Size = new Size(240, 58);
+            button1.TabIndex = 1;
+            button1.Text = "button1";
+            button1.UseVisualStyleBackColor = true;
+            button1.Click += button1_Click_1;
+            // 
+            // Form1
+            // 
+            AutoScaleDimensions = new SizeF(13F, 32F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(800, 450);
+            Controls.Add(button1);
+            Controls.Add(dgv);
+            Name = "Form1";
             Text = "Form1";
+            ((System.ComponentModel.ISupportInitialize)dgv).EndInit();
+            ResumeLayout(false);
         }
 
         #endregion
+
+        private DataGridView dgv;
+        private Button button1;
     }
 }
