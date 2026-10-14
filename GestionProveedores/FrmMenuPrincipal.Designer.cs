@@ -17,36 +17,52 @@
 
         private void InitializeComponent()
         {
-            this.lblBienvenida = new System.Windows.Forms.Label();
-            this.SuspendLayout();
+            lblBienvenida = new Label();
+            Logout = new Button();
+            SuspendLayout();
             // 
             // lblBienvenida
             // 
-            this.lblBienvenida.AutoSize = true;
-            this.lblBienvenida.Font = new System.Drawing.Font("Segoe UI", 12F);
-            this.lblBienvenida.Location = new System.Drawing.Point(24, 24);
-            this.lblBienvenida.Name = "lblBienvenida";
-            this.lblBienvenida.Size = new System.Drawing.Size(160, 21);
-            this.lblBienvenida.TabIndex = 0;
-            this.lblBienvenida.Text = "Bienvenido";
+            lblBienvenida.AutoSize = true;
+            lblBienvenida.Font = new Font("Segoe UI", 12F);
+            lblBienvenida.Location = new Point(27, 32);
+            lblBienvenida.Name = "lblBienvenida";
+            lblBienvenida.Size = new Size(109, 28);
+            lblBienvenida.TabIndex = 0;
+            lblBienvenida.Text = "Bienvenido";
+            // 
+            // Logout
+            // 
+            Logout.AccessibleName = "";
+            Logout.Location = new Point(558, 28);
+            Logout.Name = "Logout";
+            Logout.Size = new Size(94, 29);
+            Logout.TabIndex = 1;
+            Logout.Text = "Logout";
+            Logout.UseVisualStyleBackColor = true;
+            Logout.Click += mnuCerrarSesion_Click;
             // 
             // FrmMenuPrincipal
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(584, 361);
-            this.Controls.Add(this.lblBienvenida);
-            this.Name = "FrmMenuPrincipal";
-            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "Gestión de Proveedores";
-            this.Load += new System.EventHandler(this.FrmMenuPrincipal_Load);
-            this.ResumeLayout(false);
-            this.PerformLayout();
+            AutoScaleDimensions = new SizeF(8F, 20F);
+            AutoScaleMode = AutoScaleMode.Font;
+            ClientSize = new Size(667, 481);
+            Controls.Add(Logout);
+            Controls.Add(lblBienvenida);
+            Margin = new Padding(3, 4, 3, 4);
+            Name = "FrmMenuPrincipal";
+            StartPosition = FormStartPosition.CenterScreen;
+            Text = "Gestión de Proveedores";
+            Load += FrmMenuPrincipal_Load;
+            FormClosing += FrmMenuPrincipal_FormClosing;
+            ResumeLayout(false);
+            PerformLayout();
 
         }
 
         #endregion
 
         private System.Windows.Forms.Label lblBienvenida;
+        private Button Logout;
     }
 }

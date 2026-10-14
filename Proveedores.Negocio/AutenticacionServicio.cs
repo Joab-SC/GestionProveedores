@@ -60,9 +60,10 @@ namespace Proveedores.Negocio
             byte[] derecha = Encoding.UTF8.GetBytes(hashGuardado ?? string.Empty);
             return CryptographicOperations.FixedTimeEquals(izquierda, derecha);
         }
-    }
 
-    public void Salir()
+        // CU-02: registra la hora de salida de la sesion abierta y la cierra.
+        // Es idempotente: si ya se cerro, no hace nada.
+        public void Salir()
         {
             if (Sesion.UsuarioActual is null) return;
 
@@ -72,8 +73,10 @@ namespace Proveedores.Negocio
             }
             finally
             {
+                // La sesion se cierra aunque falle el UPDATE, para no dejar
+                // una sesion a medias en memoria.
                 Sesion.Cerrar();
             }
         }
-    } 
+    }
 }
