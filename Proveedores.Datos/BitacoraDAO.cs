@@ -46,5 +46,31 @@ namespace Proveedores.Datos
                 throw TraductorErroresOracle.Traducir(ex);
             }
         }
+    
+
+    public void RegistrarSalida(int bitacoraId)
+        {
+            try
+            {
+                using var con = Conexion.Crear();
+                con.Open();
+
+                using var cmd = con.CreateCommand();
+                cmd.BindByName = true;
+                cmd.CommandText =
+                    @"UPDATE bitacora
+                 SET fecha_salida = SYSTIMESTAMP
+               WHERE id = :id
+                 AND fecha_salida IS NULL";
+                cmd.Parameters.Add(new OracleParameter("id", bitacoraId));
+
+                cmd.ExecuteNonQuery();
+            }
+            catch (OracleException ex)
+            {
+                throw TraductorErroresOracle.Traducir(ex);
+            }
+        }
     }
 }
+
