@@ -104,5 +104,39 @@ namespace Proveedores.Datos
                 throw TraductorErroresOracle.Traducir(ex);
             }
         }
+
+        public Ciudad? ObtenerPorId(int id)
+        {
+            const string sql = "SELECT id, nombre FROM ciudad WHERE id = :id";
+
+            try
+            {
+                using (var con = Conexion.Crear())
+                using (var cmd = new OracleCommand(sql, con))
+                {
+                    cmd.BindByName = true;
+                    cmd.Parameters.Add("id", OracleDbType.Int32).Value = id;
+                    con.Open();
+                    using (var rd = cmd.ExecuteReader())
+                    {
+                        if (rd.Read())
+                        {
+                            return new Ciudad
+                            {
+                                Id = rd.GetInt32(0),
+                                Nombre = rd.GetString(1)
+                            };
+                        }
+                    }
+                }
+            }
+            catch (OracleException ex)
+            {
+                throw TraductorErroresOracle.Traducir(ex);
+            }
+
+            return null;
+        }
     }
+
 }

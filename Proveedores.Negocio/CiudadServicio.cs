@@ -6,19 +6,20 @@ using Proveedores.Modelo;
 namespace Proveedores.Negocio
 {
     // Reglas de negocio de Ciudad. Los formularios hablan con esta clase, no con el DAO.
-    // Esta capa no conoce Oracle: el DAO traduce los errores a
-    // ReglaNegocioException y sus derivadas antes de subirlos.
+    // Esta capa no conoce Oracle: el DAO traduce los errores antes de subirlos.
     public class CiudadServicio
     {
         private readonly CiudadDAO dao = new CiudadDAO();
 
         public List<Ciudad> Listar()
         {
+            Sesion.Exigir(Permisos.Leer);
             return dao.Listar();
         }
 
         public void Crear(string nombre)
         {
+            Sesion.Exigir(Permisos.Crear);
             Validar(nombre);
             try
             {
@@ -26,14 +27,13 @@ namespace Proveedores.Negocio
             }
             catch (DatoDuplicadoException)
             {
-                // El DAO ya tradujo el error de Oracle; aqui se pone el
-                // mensaje propio de la ciudad.
                 throw new DatoDuplicadoException("Ya existe una ciudad con ese nombre.");
             }
         }
 
         public void Editar(int id, string nombre)
         {
+            Sesion.Exigir(Permisos.Actualizar);
             Validar(nombre);
             try
             {
@@ -47,6 +47,7 @@ namespace Proveedores.Negocio
 
         public void Eliminar(int id)
         {
+            Sesion.Exigir(Permisos.Eliminar);
             try
             {
                 dao.Eliminar(id);

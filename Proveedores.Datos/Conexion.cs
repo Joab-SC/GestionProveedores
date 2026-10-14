@@ -5,7 +5,7 @@ namespace Proveedores.Datos
     public static class Conexion
     {
         // Los valores por defecto son los de Database/compose.yaml (desarrollo).
-        // Se leen de variables de entorno para no dejar credenciales fijas en el codigo.
+        // Cada persona puede cambiarlos con variables de entorno sin tocar el código.
         public static OracleConnection Crear()
         {
             string host = Leer("ORACLE_HOST", "localhost");
@@ -19,7 +19,7 @@ namespace Proveedores.Datos
                 ";Password=" + clave +
                 ";Connection Timeout=60;";
 
-            // Se devuelve SIN abrir: el DAO decide cuando abrirla (con using).
+            // Se devuelve SIN abrir: el DAO decide cuándo abrirla (con using).
             return new OracleConnection(cadena);
         }
 
