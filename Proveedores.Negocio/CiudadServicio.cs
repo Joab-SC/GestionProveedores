@@ -1,12 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
-using Oracle.ManagedDataAccess.Client;
 using Proveedores.Datos;
 using Proveedores.Modelo;
 
 namespace Proveedores.Negocio
 {
     // Reglas de negocio de Ciudad. Los formularios hablan con esta clase, no con el DAO.
+    // Esta capa no conoce Oracle: el DAO traduce los errores a
+    // ReglaNegocioException y sus derivadas antes de subirlos.
     public class CiudadServicio
     {
         private readonly CiudadDAO dao = new CiudadDAO();
@@ -23,9 +24,11 @@ namespace Proveedores.Negocio
             {
                 dao.Insertar(new Ciudad { Nombre = nombre.Trim() });
             }
-            catch (OracleException ex) when (ex.Number == 1) // ORA-00001: nombre repetido
+            catch (DatoDuplicadoException)
             {
-                throw new InvalidOperationException("Ya existe una ciudad con ese nombre.");
+                // El DAO ya tradujo el error de Oracle; aqui se pone el
+                // mensaje propio de la ciudad.
+                throw new DatoDuplicadoException("Ya existe una ciudad con ese nombre.");
             }
         }
 
@@ -36,9 +39,9 @@ namespace Proveedores.Negocio
             {
                 dao.Actualizar(new Ciudad { Id = id, Nombre = nombre.Trim() });
             }
-            catch (OracleException ex) when (ex.Number == 1)
+            catch (DatoDuplicadoException)
             {
-                throw new InvalidOperationException("Ya existe una ciudad con ese nombre.");
+                throw new DatoDuplicadoException("Ya existe una ciudad con ese nombre.");
             }
         }
 
@@ -48,9 +51,9 @@ namespace Proveedores.Negocio
             {
                 dao.Eliminar(id);
             }
-            catch (OracleException ex) when (ex.Number == 2292) // ORA-02292: tiene registros hijos
+            catch (RegistroEnUsoException)
             {
-                throw new InvalidOperationException(
+                throw new RegistroEnUsoException(
                     "No se puede eliminar: hay proveedores o usuarios en esta ciudad.");
             }
         }
@@ -58,9 +61,9 @@ namespace Proveedores.Negocio
         private static void Validar(string nombre)
         {
             if (string.IsNullOrWhiteSpace(nombre))
-                throw new ArgumentException("El nombre de la ciudad es obligatorio.");
+                throw new ReglaNegocioException("El nombre de la ciudad es obligatorio.");
             if (nombre.Trim().Length > 80)
-                throw new ArgumentException("El nombre no puede superar 80 caracteres.");
+                throw new ReglaNegocioException("El nombre no puede superar 80 caracteres.");
         }
     }
 }

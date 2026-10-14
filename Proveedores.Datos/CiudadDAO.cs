@@ -5,6 +5,8 @@ using Proveedores.Modelo;
 namespace Proveedores.Datos
 {
     // CRUD de la tabla CIUDAD. Todo el SQL de esta entidad vive aquí.
+    // Cada método traduce su OracleException con TraductorErroresOracle,
+    // así ninguna capa superior ve un texto "ORA-xxxxx".
     public class CiudadDAO
     {
         public List<Ciudad> Listar()
@@ -12,22 +14,30 @@ namespace Proveedores.Datos
             var lista = new List<Ciudad>();
             const string sql = "SELECT id, nombre FROM ciudad ORDER BY nombre";
 
-            using (var con = Conexion.Crear())
-            using (var cmd = new OracleCommand(sql, con))
+            try
             {
-                con.Open();
-                using (var rd = cmd.ExecuteReader())
+                using (var con = Conexion.Crear())
+                using (var cmd = new OracleCommand(sql, con))
                 {
-                    while (rd.Read())
+                    con.Open();
+                    using (var rd = cmd.ExecuteReader())
                     {
-                        lista.Add(new Ciudad
+                        while (rd.Read())
                         {
-                            Id = rd.GetInt32(0),
-                            Nombre = rd.GetString(1)
-                        });
+                            lista.Add(new Ciudad
+                            {
+                                Id = rd.GetInt32(0),
+                                Nombre = rd.GetString(1)
+                            });
+                        }
                     }
                 }
             }
+            catch (OracleException ex)
+            {
+                throw TraductorErroresOracle.Traducir(ex);
+            }
+
             return lista;
         }
 
@@ -35,13 +45,20 @@ namespace Proveedores.Datos
         {
             const string sql = "INSERT INTO ciudad (nombre) VALUES (:nombre)";
 
-            using (var con = Conexion.Crear())
-            using (var cmd = new OracleCommand(sql, con))
+            try
             {
-                cmd.BindByName = true;
-                cmd.Parameters.Add("nombre", OracleDbType.Varchar2).Value = ciudad.Nombre;
-                con.Open();
-                return cmd.ExecuteNonQuery();
+                using (var con = Conexion.Crear())
+                using (var cmd = new OracleCommand(sql, con))
+                {
+                    cmd.BindByName = true;
+                    cmd.Parameters.Add("nombre", OracleDbType.Varchar2).Value = ciudad.Nombre;
+                    con.Open();
+                    return cmd.ExecuteNonQuery();
+                }
+            }
+            catch (OracleException ex)
+            {
+                throw TraductorErroresOracle.Traducir(ex);
             }
         }
 
@@ -49,14 +66,21 @@ namespace Proveedores.Datos
         {
             const string sql = "UPDATE ciudad SET nombre = :nombre WHERE id = :id";
 
-            using (var con = Conexion.Crear())
-            using (var cmd = new OracleCommand(sql, con))
+            try
             {
-                cmd.BindByName = true;
-                cmd.Parameters.Add("nombre", OracleDbType.Varchar2).Value = ciudad.Nombre;
-                cmd.Parameters.Add("id", OracleDbType.Int32).Value = ciudad.Id;
-                con.Open();
-                return cmd.ExecuteNonQuery();
+                using (var con = Conexion.Crear())
+                using (var cmd = new OracleCommand(sql, con))
+                {
+                    cmd.BindByName = true;
+                    cmd.Parameters.Add("nombre", OracleDbType.Varchar2).Value = ciudad.Nombre;
+                    cmd.Parameters.Add("id", OracleDbType.Int32).Value = ciudad.Id;
+                    con.Open();
+                    return cmd.ExecuteNonQuery();
+                }
+            }
+            catch (OracleException ex)
+            {
+                throw TraductorErroresOracle.Traducir(ex);
             }
         }
 
@@ -64,13 +88,20 @@ namespace Proveedores.Datos
         {
             const string sql = "DELETE FROM ciudad WHERE id = :id";
 
-            using (var con = Conexion.Crear())
-            using (var cmd = new OracleCommand(sql, con))
+            try
             {
-                cmd.BindByName = true;
-                cmd.Parameters.Add("id", OracleDbType.Int32).Value = id;
-                con.Open();
-                return cmd.ExecuteNonQuery();
+                using (var con = Conexion.Crear())
+                using (var cmd = new OracleCommand(sql, con))
+                {
+                    cmd.BindByName = true;
+                    cmd.Parameters.Add("id", OracleDbType.Int32).Value = id;
+                    con.Open();
+                    return cmd.ExecuteNonQuery();
+                }
+            }
+            catch (OracleException ex)
+            {
+                throw TraductorErroresOracle.Traducir(ex);
             }
         }
     }
