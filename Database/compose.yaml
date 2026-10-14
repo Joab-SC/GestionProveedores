@@ -1,0 +1,17 @@
+name: gestionproveedores
+
+services:
+  oracle-free:
+    image: gvenzl/oracle-free:latest
+    container_name: oracle-db
+    ports:
+      - "1521:1521"
+    environment:
+      ORACLE_PASSWORD: Oracle12345
+      APP_USER: Joab
+      APP_USER_PASSWORD: Joab2007
+    volumes:
+      - oracle-data:/opt/oracle/oradata
+
+volumes:
+  oracle-data:

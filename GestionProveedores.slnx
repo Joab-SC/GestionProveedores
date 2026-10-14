@@ -1,4 +1,7 @@
 <Solution>
+  <Folder Name="/Database/">
+    <File Path="compose.yaml" />
+  </Folder>
   <Project Path="GestionProveedores/GestionProveedores.csproj" />
   <Project Path="Proveedores.Datos/Proveedores.Datos.csproj" Id="f3786bf6-a729-4052-95bf-4e689d9564fd" />
   <Project Path="Proveedores.Modelo/Proveedores.Modelo.csproj" Id="2e3e051e-a263-4d71-b973-455d08bbcb43" />
