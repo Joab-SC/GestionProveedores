@@ -61,4 +61,19 @@ namespace Proveedores.Negocio
             return CryptographicOperations.FixedTimeEquals(izquierda, derecha);
         }
     }
+
+    public void Salir()
+        {
+            if (Sesion.UsuarioActual is null) return;
+
+            try
+            {
+                bitacoraDao.RegistrarSalida(Sesion.BitacoraId);
+            }
+            finally
+            {
+                Sesion.Cerrar();
+            }
+        }
+    } 
 }
