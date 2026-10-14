@@ -11,7 +11,11 @@ namespace GestionProveedores
             // To customize application configuration such as set high DPI settings or default font,
             // see https://aka.ms/applicationconfiguration.
             ApplicationConfiguration.Initialize();
-            Application.Run(new Form1());
+            using (var login = new FrmLogin())
+            {
+                if (login.ShowDialog() != DialogResult.OK) return;
+            }
+            Application.Run(new FrmMenuPrincipal());
         }
     }
 }
