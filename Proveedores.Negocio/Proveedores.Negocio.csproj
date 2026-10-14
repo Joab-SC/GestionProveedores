@@ -7,10 +7,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Oracle.ManagedDataAccess.Core" Version="23.26.301" />
-  </ItemGroup>
-
-  <ItemGroup>
     <ProjectReference Include="..\Proveedores.Datos\Proveedores.Datos.csproj" />
     <ProjectReference Include="..\Proveedores.Modelo\Proveedores.Modelo.csproj" />
   </ItemGroup>
