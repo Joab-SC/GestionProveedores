@@ -4,11 +4,29 @@ namespace Proveedores.Datos
 {
     public static class Conexion
     {
-        private const string Cadena =
-        "Data Source=192.168.5.214:1521/FREEPDB1;User Id=proyecto_bd;Password=proyecto123;Connection Timeout=60;";
+        // Los valores por defecto son los de Database/compose.yaml (desarrollo).
+        // Se leen de variables de entorno para no dejar credenciales fijas en el codigo.
         public static OracleConnection Crear()
         {
-            return new OracleConnection(Cadena);
+            string host = Leer("ORACLE_HOST", "localhost");
+            string servicio = Leer("ORACLE_SERVICE", "FREEPDB1");
+            string usuario = Leer("APP_USER", "Joab");
+            string clave = Leer("APP_USER_PASSWORD", "Joab2007");
+
+            string cadena =
+                "Data Source=" + host + "/" + servicio +
+                ";User Id=" + usuario +
+                ";Password=" + clave +
+                ";Connection Timeout=60;";
+
+            // Se devuelve SIN abrir: el DAO decide cuando abrirla (con using).
+            return new OracleConnection(cadena);
+        }
+
+        private static string Leer(string variable, string valorPorDefecto)
+        {
+            string? valor = Environment.GetEnvironmentVariable(variable);
+            return string.IsNullOrWhiteSpace(valor) ? valorPorDefecto : valor;
         }
     }
 }
