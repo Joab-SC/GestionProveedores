@@ -61,6 +61,7 @@ namespace Proveedores.Negocio
             return CryptographicOperations.FixedTimeEquals(izquierda, derecha);
         }
 
+
         // CU-02: registra la hora de salida de la sesion abierta y la cierra.
         // Es idempotente: si ya se cerro, no hace nada.
         public void Salir()
