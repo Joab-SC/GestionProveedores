@@ -60,7 +60,7 @@ namespace Proveedores.Negocio
             byte[] derecha = Encoding.UTF8.GetBytes(hashGuardado ?? string.Empty);
             return CryptographicOperations.FixedTimeEquals(izquierda, derecha);
         }
-    }
+    
 
     public void Salir()
         {
