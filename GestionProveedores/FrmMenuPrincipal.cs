@@ -27,7 +27,7 @@ namespace GestionProveedores
             // Módulos que aún no existen: cuando se creen, se cambia solo la línea
             // por, por ejemplo, Abrir(new FrmConsultas());
             mnuConsultas.Click += (s, e) => Pendiente("Consultas");
-            mnuReportes.Click += (s, e) => Pendiente("Reportes");
+            mnuReportes.Click += (s, e) => Abrir(new FrmReportes());
             mnuUsuarios.Click += (s, e) => Pendiente("Usuarios");
             mnuBitacora.Click += (s, e) => Pendiente("Bitácora");
 
