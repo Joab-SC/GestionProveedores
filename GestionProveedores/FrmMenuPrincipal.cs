@@ -27,7 +27,7 @@ namespace GestionProveedores
             mnuConsultas.Click += (s, e) => Abrir(new FrmConsultas());
             mnuUsuarios.Click += (s, e) => Abrir(new FrmUsuarios());
             mnuReportes.Click += (s, e) => Abrir(new FrmReportes());
-            mnuBitacora.Click += (s, e) => Pendiente("Bitácora");
+            mnuBitacora.Click += (s, e) => Abrir(new FrmBitacora());
 
             // Sesión
             mnuCerrarSesion.Click += mnuCerrarSesion_Click;
