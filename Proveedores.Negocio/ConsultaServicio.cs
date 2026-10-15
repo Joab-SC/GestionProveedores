@@ -7,31 +7,31 @@ public class ConsultaServicio
 {
     private readonly ConsultaDAO dao = new();
 
-    public List<ProveedorProductoDto> ProveedoresConCiudadYProductos()
+    public List<ProveedorProductoDto> ObtenerProveedoresConCiudadYProductos()
     {
         Sesion.Exigir(Permisos.Leer);
         return dao.ProveedoresConCiudadYProductos();
     }
 
-    public List<ProductoPorCategoriaDto> ProductosPorCategoriaConProveedores()
+    public List<ProductoPorCategoriaDto> ObtenerProductosPorCategoriaConProveedores()
     {
         Sesion.Exigir(Permisos.Leer);
         return dao.ProductosPorCategoriaConProveedores();
     }
 
-    public List<UsuarioPermisoDto> UsuariosConCiudadTipoYPermisos()
+    public List<UsuarioPermisoDto> ObtenerUsuariosConCiudadTipoYPermisos()
     {
         Sesion.Exigir(Permisos.Leer);
         return dao.UsuariosConCiudadTipoYPermisos();
     }
 
-    public List<ProveedorResumenDto> ProveedoresConMasProductosQuePromedio()
+    public List<ProveedorResumenDto> ObtenerProveedoresConMasProductosQuePromedio()
     {
         Sesion.Exigir(Permisos.Leer);
         return dao.ProveedoresConMasProductosQuePromedio();
     }
 
-    public List<ProductoSinProveedorDto> ProductosSinProveedor()
+    public List<ProductoSinProveedorDto> ObtenerProductosSinProveedor()
     {
         Sesion.Exigir(Permisos.Leer);
         return dao.ProductosSinProveedor();
