@@ -46,7 +46,6 @@ namespace Proveedores.Datos
                 throw TraductorErroresOracle.Traducir(ex);
             }
         }
-    
 
     public void RegistrarSalida(int bitacoraId)
         {
@@ -65,6 +64,70 @@ namespace Proveedores.Datos
                 cmd.Parameters.Add(new OracleParameter("id", bitacoraId));
 
                 cmd.ExecuteNonQuery();
+            }
+            catch (OracleException ex)
+            {
+                throw TraductorErroresOracle.Traducir(ex);
+            }
+        }
+
+        public List<BitacoraVistaDto> ListarTodos(DateTime desde, DateTime hasta)
+        {
+            const string sql = @"
+                SELECT u.nombre || ' ' || u.apellido AS usuario,
+                       b.fecha_entrada,
+                       b.fecha_salida
+                FROM bitacora b
+                JOIN usuario u ON u.cedula = b.usuario_cedula
+                WHERE b.fecha_entrada >= :desde
+                  AND b.fecha_entrada <  :hasta
+                ORDER BY b.fecha_entrada DESC";
+
+            return EjecutarConsulta(sql, desde, hasta);
+        }
+
+        public List<BitacoraVistaDto> ListarPorUsuario(string cedulaUsuario, DateTime desde, DateTime hasta)
+        {
+            const string sql = @"
+                SELECT u.nombre || ' ' || u.apellido AS usuario,
+                       b.fecha_entrada,
+                       b.fecha_salida
+                FROM bitacora b
+                JOIN usuario u ON u.cedula = b.usuario_cedula
+                WHERE b.usuario_cedula = :cedula
+                  AND b.fecha_entrada >= :desde
+                  AND b.fecha_entrada <  :hasta
+                ORDER BY b.fecha_entrada DESC";
+
+            return EjecutarConsulta(sql, desde, hasta, cedulaUsuario);
+        }
+
+        private static List<BitacoraVistaDto> EjecutarConsulta(
+            string sql, DateTime desde, DateTime hasta, string? cedulaUsuario = null)
+        {
+            try
+            {
+                using var con = Conexion.Crear();
+                con.Open();
+
+                using var cmd = new OracleCommand(sql, con) { BindByName = true };
+                if (cedulaUsuario != null)
+                    cmd.Parameters.Add("cedula", OracleDbType.Varchar2).Value = cedulaUsuario;
+                cmd.Parameters.Add("desde", OracleDbType.TimeStamp).Value = desde.Date;
+                cmd.Parameters.Add("hasta", OracleDbType.TimeStamp).Value = hasta.Date.AddDays(1);
+
+                var lista = new List<BitacoraVistaDto>();
+                using var reader = cmd.ExecuteReader();
+                while (reader.Read())
+                {
+                    lista.Add(new BitacoraVistaDto
+                    {
+                        Usuario = reader.GetString(0),
+                        FechaEntrada = reader.GetDateTime(1),
+                        FechaSalida = reader.IsDBNull(2) ? null : reader.GetDateTime(2)
+                    });
+                }
+                return lista;
             }
             catch (OracleException ex)
             {
