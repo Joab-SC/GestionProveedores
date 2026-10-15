@@ -5,11 +5,11 @@ services:
     image: gvenzl/oracle-free:latest
     container_name: oracle-db
     ports:
-      - "1521:1521"
+      - "${ORACLE_PORT:?ORACLE_PORT debe estar definida}:1521"
     environment:
-      ORACLE_PASSWORD: Oracle12345
-      APP_USER: Joab
-      APP_USER_PASSWORD: Joab2007
+      ORACLE_PASSWORD: "${ORACLE_PASSWORD:?ORACLE_PASSWORD debe estar definida}"
+      APP_USER: "${APP_USER:?APP_USER debe estar definida}"
+      APP_USER_PASSWORD: "${APP_USER_PASSWORD:?APP_USER_PASSWORD debe estar definida}"
     volumes:
       - oracle-data:/opt/oracle/oradata
 

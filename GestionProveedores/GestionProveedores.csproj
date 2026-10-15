@@ -17,4 +17,9 @@
     <ProjectReference Include="..\Proveedores.Negocio\Proveedores.Negocio.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Include="..\Database\.env" Link=".env" CopyToOutputDirectory="PreserveNewest"
+          Condition="Exists('..\Database\.env')" />
+  </ItemGroup>
+
 </Project>

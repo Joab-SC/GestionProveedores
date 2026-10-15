@@ -5,7 +5,7 @@
 -- Usuario       : el usuario de la aplicacion (APP_USER de compose.yaml)
 --
 -- Como ejecutarlo (conectar COMO el usuario de la aplicacion):
---   sqlplus Joab/Joab2007@localhost:1521/FREEPDB1
+--   sqlplus <APP_USER>/<APP_USER_PASSWORD>@<ORACLE_HOST>:<ORACLE_PORT>/<ORACLE_SERVICE>
 --   SQL> @01_schema.sql
 --
 -- El script puede ejecutarse sobre una base vacia; el paso 1 ademas

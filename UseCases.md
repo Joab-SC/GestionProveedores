@@ -47,7 +47,7 @@ Presentación **nunca** referencia a Datos. Negocio **nunca** referencia a Oracl
 3. **Datos:** clases DAO con todo el SQL. Usa parámetros con nombre (`:nombre`, `BindByName = true`), columnas listadas (nunca `SELECT *`) y `using` en conexión, comando y lector. Captura `OracleException` y la traduce con `TraductorErroresOracle`.
 4. **Modelo:** entidades, DTO de vista, constantes y excepciones. No depende de ninguna otra capa.
 5. **Entidades y DTO** viajan entre capas. `DataTable` solo se acepta en consultas (CU-09) y reportes (CU-10).
-6. La cadena de conexión no lleva credenciales en el código: `Conexion.Crear()` lee host, usuario y contraseña de variables de entorno (`ORACLE_HOST` con valor por defecto `localhost`, y las demás con los valores del `compose.yaml` para desarrollo).
+6. La cadena de conexión no lleva credenciales en el código: `Conexion.Crear()` carga las variables de entorno requeridas desde `.env` sin sobrescribir valores externos.
 7. La contraseña de los usuarios se guarda únicamente como hash SHA-256 (hexadecimal en minúscula, 64 caracteres).
  
 ### Convenciones de nombres
