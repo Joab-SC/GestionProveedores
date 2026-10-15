@@ -24,9 +24,7 @@ namespace GestionProveedores
             // Transacciones
             mnuAsignaciones.Click += (s, e) => Abrir(new FrmAsignaciones());
 
-            // Módulos que aún no existen: cuando se creen, se cambia solo la línea
-            // por, por ejemplo, Abrir(new FrmConsultas());
-            mnuConsultas.Click += (s, e) => Pendiente("Consultas");
+            mnuConsultas.Click += (s, e) => Abrir(new FrmConsultas());
             mnuReportes.Click += (s, e) => Pendiente("Reportes");
             mnuUsuarios.Click += (s, e) => Pendiente("Usuarios");
             mnuBitacora.Click += (s, e) => Pendiente("Bitácora");
