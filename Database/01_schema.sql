@@ -267,22 +267,22 @@ INSERT INTO detalle_producto (producto_id, proveedor_cedula) VALUES (8, '2000000
 INSERT INTO detalle_producto (producto_id, proveedor_cedula) VALUES (8, '2000000003');
 
 -- Contrasenas: hash SHA-256 (hex minuscula, 64 caracteres)
---   1000000001 / Admin123*
---   1000000002 / Trad123*
---   1000000003 / Espo123*
+--   123 / Admin123*
+--   111 / Trad123*
+--   321 / Espo123*
 INSERT INTO usuario (cedula, nombre, apellido, fecha_nacimiento,
                      ciudad_id, tipo_usuario_id, contrasena, activo)
-VALUES ('1000000001', 'Admin', 'Sistema', DATE '1990-01-01',
+VALUES ('123', 'Admin', 'Prueba', DATE '1990-01-01',
         1, 1, '0a5bc3e342432f1bad92ffd51b785343ec72906cdba6a26131060b008e786656', 1);
 
 INSERT INTO usuario (cedula, nombre, apellido, fecha_nacimiento,
                      ciudad_id, tipo_usuario_id, contrasena, activo)
-VALUES ('1000000002', 'Laura', 'Gomez', DATE '1998-05-12',
+VALUES ('111', 'Trad', 'Prueba', DATE '1998-05-12',
         2, 2, '7a6f03b050ab0458d83a935981483273ce9c41f6fabf598782ebc4194928c130', 1);
 
 INSERT INTO usuario (cedula, nombre, apellido, fecha_nacimiento,
                      ciudad_id, tipo_usuario_id, contrasena, activo)
-VALUES ('1000000003', 'Carlos', 'Ruiz', DATE '2000-09-30',
+VALUES ('321', 'Espo', 'Prueba', DATE '2000-09-30',
         6, 3, '2279adbbd1b5b4f5c7a374f4feed9aa587cadc963d48189428d8bca4391c1062', 1);
 
 COMMIT;

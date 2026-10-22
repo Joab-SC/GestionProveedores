@@ -68,9 +68,9 @@ Para iniciar sesión se usa la **cédula** y la contraseña.
 
 | Cédula | Contraseña | Nombre | Tipo |
 |---|---|---|---|
-| `1000000001` | `Admin123*` | Admin Sistema | Administrador |
-| `1000000002` | `Trad123*` | Laura Gomez | Tradicional |
-| `1000000003` | `Espo123*` | Carlos Ruiz | Esporádico |
+| `123` | `Admin123*` | Admin Prueba | Administrador |
+| `111` | `Trad123*` | Trad Prueba | Tradicional |
+| `321` | `Espo123*` | Espo Prueba | Esporádico |
 
 ---
 
