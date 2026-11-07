@@ -1,5 +1,6 @@
 <Solution>
   <Folder Name="/Database/">
+    <File Path=".env" />
     <File Path="compose.yaml" />
   </Folder>
   <Folder Name="/Solution Items/">

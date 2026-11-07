@@ -8,12 +8,13 @@ namespace Proveedores.Datos
     // Los alias entre comillas dobles son los títulos de las columnas del PDF.
     public class ReporteDAO
     {
-        // Reporte 1: proveedores por ciudad, con sus productos (ciudad opcional)
+        // Reporte 1: proveedores por ciudad, con sus productos y precios (ciudad opcional)
         public DataTable ProveedoresPorCiudad(int? ciudadId)
         {
             const string sql =
                 "SELECT c.nombre AS \"Ciudad\", pr.cedula AS \"Cédula\", " +
-                "       pr.nombre || ' ' || pr.apellido AS \"Proveedor\", p.nombre AS \"Producto\" " +
+                "       pr.nombre || ' ' || pr.apellido AS \"Proveedor\", p.nombre AS \"Producto\", " +
+                "       dp.precio AS \"Precio\" " +
                 "FROM proveedor pr " +
                 "JOIN ciudad c ON c.id = pr.ciudad_id " +
                 "LEFT JOIN detalle_producto dp ON dp.proveedor_cedula = pr.cedula " +
@@ -27,12 +28,12 @@ namespace Proveedores.Datos
             });
         }
 
-        // Reporte 2: productos que ofrece un proveedor
+        // Reporte 2: productos que ofrece un proveedor, con su precio
         public DataTable ProductosDeProveedor(string cedula)
         {
             const string sql =
                 "SELECT pr.cedula AS \"Cédula\", pr.nombre || ' ' || pr.apellido AS \"Proveedor\", " +
-                "       p.nombre AS \"Producto\", cat.nombre AS \"Categoría\" " +
+                "       p.nombre AS \"Producto\", cat.nombre AS \"Categoría\", dp.precio AS \"Precio\" " +
                 "FROM proveedor pr " +
                 "JOIN detalle_producto dp ON dp.proveedor_cedula = pr.cedula " +
                 "JOIN producto p ON p.id = dp.producto_id " +
@@ -46,18 +47,19 @@ namespace Proveedores.Datos
             });
         }
 
-        // Reporte 3: proveedores de un producto
+        // Reporte 3: proveedores de un producto, del más barato al más caro
         public DataTable ProveedoresDeProducto(int productoId)
         {
             const string sql =
                 "SELECT p.nombre AS \"Producto\", pr.cedula AS \"Cédula\", " +
-                "       pr.nombre || ' ' || pr.apellido AS \"Proveedor\", c.nombre AS \"Ciudad\" " +
+                "       pr.nombre || ' ' || pr.apellido AS \"Proveedor\", c.nombre AS \"Ciudad\", " +
+                "       dp.precio AS \"Precio\" " +
                 "FROM producto p " +
                 "JOIN detalle_producto dp ON dp.producto_id = p.id " +
                 "JOIN proveedor pr ON pr.cedula = dp.proveedor_cedula " +
                 "JOIN ciudad c ON c.id = pr.ciudad_id " +
                 "WHERE p.id = :producto_id " +
-                "ORDER BY pr.apellido, pr.nombre";
+                "ORDER BY dp.precio, pr.apellido, pr.nombre";
 
             return Ejecutar(sql, cmd =>
             {

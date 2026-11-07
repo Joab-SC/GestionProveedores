@@ -20,10 +20,11 @@ partial class FrmAsignaciones
         lblDisponibles = new Label();
         lblAsignados = new Label();
         lstDisponibles = new ListBox();
-        lstAsignados = new ListBox();
+        dgvAsignados = new DataGridView();
         btnAgregar = new Button();
         btnQuitar = new Button();
         btnGuardarCambios = new Button();
+        ((System.ComponentModel.ISupportInitialize)dgvAsignados).BeginInit();
         SuspendLayout();
         // 
         // lblProveedor
@@ -58,9 +59,9 @@ partial class FrmAsignaciones
         lblAsignados.AutoSize = true;
         lblAsignados.Location = new Point(388, 104);
         lblAsignados.Name = "lblAsignados";
-        lblAsignados.Size = new Size(153, 20);
+        lblAsignados.Size = new Size(200, 20);
         lblAsignados.TabIndex = 3;
-        lblAsignados.Text = "Productos asignados";
+        lblAsignados.Text = "Productos asignados y su precio";
         // 
         // lstDisponibles
         // 
@@ -71,14 +72,14 @@ partial class FrmAsignaciones
         lstDisponibles.Size = new Size(280, 286);
         lstDisponibles.TabIndex = 4;
         // 
-        // lstAsignados
+        // dgvAsignados
         // 
-        lstAsignados.FormattingEnabled = true;
-        lstAsignados.IntegralHeight = false;
-        lstAsignados.Location = new Point(388, 132);
-        lstAsignados.Name = "lstAsignados";
-        lstAsignados.Size = new Size(280, 286);
-        lstAsignados.TabIndex = 7;
+        dgvAsignados.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+        dgvAsignados.Location = new Point(388, 132);
+        dgvAsignados.Name = "dgvAsignados";
+        dgvAsignados.RowHeadersWidth = 62;
+        dgvAsignados.Size = new Size(400, 286);
+        dgvAsignados.TabIndex = 7;
         // 
         // btnAgregar
         // 
@@ -102,7 +103,7 @@ partial class FrmAsignaciones
         // 
         // btnGuardarCambios
         // 
-        btnGuardarCambios.Location = new Point(493, 442);
+        btnGuardarCambios.Location = new Point(613, 442);
         btnGuardarCambios.Name = "btnGuardarCambios";
         btnGuardarCambios.Size = new Size(175, 42);
         btnGuardarCambios.TabIndex = 8;
@@ -114,11 +115,11 @@ partial class FrmAsignaciones
         AcceptButton = btnGuardarCambios;
         AutoScaleDimensions = new SizeF(8F, 20F);
         AutoScaleMode = AutoScaleMode.Font;
-        ClientSize = new Size(692, 507);
+        ClientSize = new Size(812, 507);
         Controls.Add(btnGuardarCambios);
         Controls.Add(btnQuitar);
         Controls.Add(btnAgregar);
-        Controls.Add(lstAsignados);
+        Controls.Add(dgvAsignados);
         Controls.Add(lstDisponibles);
         Controls.Add(lblAsignados);
         Controls.Add(lblDisponibles);
@@ -130,6 +131,7 @@ partial class FrmAsignaciones
         Name = "FrmAsignaciones";
         StartPosition = FormStartPosition.CenterParent;
         Text = "Asignar productos a proveedores";
+        ((System.ComponentModel.ISupportInitialize)dgvAsignados).EndInit();
         ResumeLayout(false);
         PerformLayout();
     }
@@ -141,7 +143,7 @@ partial class FrmAsignaciones
     private Label lblDisponibles;
     private Label lblAsignados;
     private ListBox lstDisponibles;
-    private ListBox lstAsignados;
+    private DataGridView dgvAsignados;
     private Button btnAgregar;
     private Button btnQuitar;
     private Button btnGuardarCambios;

@@ -8,4 +8,6 @@ public class DetalleProducto
     public int Id { get; set; }
     public int ProductoId { get; set; }
     public string ProveedorCedula { get; set; } = string.Empty;
+
+    public decimal Precio { get; set; }
 }

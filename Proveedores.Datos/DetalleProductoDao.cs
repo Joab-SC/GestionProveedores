@@ -1,14 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
 using Oracle.ManagedDataAccess.Client;
+using Proveedores.Modelo;
 
 namespace Proveedores.Datos;
 
 public class DetalleProductoDAO
 {
-    public List<int> ListarProductoIdsDeProveedor(string cedula)
+    public List<DetalleProducto> ListarDeProveedor(string cedula)
     {
-        var ids = new List<int>();
+        var lista = new List<DetalleProducto>();
         try
         {
             using var con = Conexion.Crear();
@@ -16,21 +17,30 @@ public class DetalleProductoDAO
             using var cmd = con.CreateCommand();
             cmd.BindByName = true;
             cmd.CommandText =
-                "SELECT producto_id FROM detalle_producto WHERE proveedor_cedula = :cedula";
+                "SELECT id, producto_id, proveedor_cedula, precio " +
+                "FROM detalle_producto WHERE proveedor_cedula = :cedula";
             cmd.Parameters.Add("cedula", OracleDbType.Varchar2).Value = cedula;
 
             using var rd = cmd.ExecuteReader();
             while (rd.Read())
-                ids.Add(rd.GetInt32(0));
+            {
+                lista.Add(new DetalleProducto
+                {
+                    Id = rd.GetInt32(0),
+                    ProductoId = rd.GetInt32(1),
+                    ProveedorCedula = rd.GetString(2),
+                    Precio = rd.GetDecimal(3)
+                });
+            }
         }
         catch (OracleException ex)
         {
             throw TraductorErroresOracle.Traducir(ex);
         }
-        return ids;
+        return lista;
     }
 
-    public void ReemplazarProductosDeProveedor(string cedulaProveedor, List<int> productoIds)
+    public void ReemplazarProductosDeProveedor(string cedulaProveedor, List<DetalleProducto> asignaciones)
     {
         try
         {
@@ -50,17 +60,18 @@ public class DetalleProductoDAO
                     del.ExecuteNonQuery();
                 }
 
-                // 2) Insertar las nuevas, una por una
-                foreach (var productoId in productoIds)
+                // 2) Insertar las nuevas, una por una, con su precio
+                foreach (var asignacion in asignaciones)
                 {
                     using var ins = con.CreateCommand();
                     ins.Transaction = tx;
                     ins.BindByName = true;
                     ins.CommandText =
-                        "INSERT INTO detalle_producto (producto_id, proveedor_cedula) " +
-                        "VALUES (:p, :c)";
-                    ins.Parameters.Add("p", OracleDbType.Int32).Value = productoId;
+                        "INSERT INTO detalle_producto (producto_id, proveedor_cedula, precio) " +
+                        "VALUES (:p, :c, :precio)";
+                    ins.Parameters.Add("p", OracleDbType.Int32).Value = asignacion.ProductoId;
                     ins.Parameters.Add("c", OracleDbType.Varchar2).Value = cedulaProveedor;
+                    ins.Parameters.Add("precio", OracleDbType.Decimal).Value = asignacion.Precio;
                     ins.ExecuteNonQuery();
                 }
 

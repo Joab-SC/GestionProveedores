@@ -99,6 +99,7 @@ namespace GestionProveedores.Reportes
             {
                 DBNull => string.Empty,
                 DateTime fecha => fecha.ToString("dd/MM/yyyy"),
+                decimal numero => numero.ToString("N2"),
                 _ => Convert.ToString(valor) ?? string.Empty
             };
         }
