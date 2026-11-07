@@ -152,6 +152,8 @@ namespace GestionProveedores
                 return;
             }
 
+            string? rutaTemporal = null;
+
             try
             {
                 DataTable tabla;
@@ -185,15 +187,19 @@ namespace GestionProveedores
                         return;
                 }
 
-                string? ruta = PedirRuta(Titulos[reporte]);
-                if (ruta == null) return;   // el usuario canceló
+                // El PDF se genera en una carpeta temporal y se muestra dentro de la aplicación.
+                string nombreArchivo = NombreArchivo(Titulos[reporte]);
+                rutaTemporal = Path.Combine(Path.GetTempPath(), nombreArchivo);
 
                 Usuario? usuario = Sesion.UsuarioActual;
                 string quien = usuario == null ? "-" : $"{usuario.Nombre} {usuario.Apellido}";
 
-                GeneradorPdf.Generar(ruta, Titulos[reporte], filtro, quien, tabla);
+                GeneradorPdf.Generar(rutaTemporal, Titulos[reporte], filtro, quien, tabla);
 
-                Process.Start(new ProcessStartInfo(ruta) { UseShellExecute = true });
+                using (var visor = new FrmVisorPdf(rutaTemporal, "Reporte: " + Titulos[reporte], nombreArchivo))
+                {
+                    visor.ShowDialog(this);
+                }
             }
             catch (ReglaNegocioException ex)
             {
@@ -201,22 +207,37 @@ namespace GestionProveedores
             }
             catch (IOException)
             {
-                Avisar("No se pudo guardar el archivo. Verifica que no esté abierto en otro programa.");
+                Avisar("No se pudo crear el archivo del reporte. Intenta de nuevo.");
             }
             catch (Exception ex)
             {
-                Avisar("No se pudo generar el PDF.\n" + ex.GetType().FullName + "\n" + ex.Message + "\n\n" + ex.StackTrace);
+                Avisar("No se pudo generar el PDF.\n" + ex.Message);
+            }
+            finally
+            {
+                BorrarTemporal(rutaTemporal);
             }
         }
 
-        private string? PedirRuta(string titulo)
+        private static string NombreArchivo(string titulo)
         {
-            using (var dialogo = new SaveFileDialog())
-            {
-                dialogo.Filter = "Archivo PDF (*.pdf)|*.pdf";
-                dialogo.FileName = $"Reporte_{titulo.Replace(' ', '_')}_{DateTime.Now:yyyyMMdd_HHmm}.pdf";
+            return $"Reporte_{titulo.Replace(' ', '_')}_{DateTime.Now:yyyyMMdd_HHmmss}.pdf";
+        }
 
-                return dialogo.ShowDialog(this) == DialogResult.OK ? dialogo.FileName : null;
+        // El archivo es solo para mostrarlo; si no se puede borrar ahora, no importa.
+        private static void BorrarTemporal(string? ruta)
+        {
+            if (ruta == null) return;
+
+            try
+            {
+                if (File.Exists(ruta)) File.Delete(ruta);
+            }
+            catch (IOException)
+            {
+            }
+            catch (UnauthorizedAccessException)
+            {
             }
         }
 

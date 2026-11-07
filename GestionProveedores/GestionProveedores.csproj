@@ -9,6 +9,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Microsoft.Web.WebView2" Version="1.0.4314.35" />
     <PackageReference Include="PDFsharp-MigraDoc" Version="6.2.4" />
   </ItemGroup>
 
@@ -18,8 +19,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <None Include="..\Database\.env" Link=".env" CopyToOutputDirectory="PreserveNewest"
-          Condition="Exists('..\Database\.env')" />
+    <None Include="..\Database\.env" Link=".env" CopyToOutputDirectory="PreserveNewest" Condition="Exists('..\Database\.env')" />
   </ItemGroup>
 
 </Project>
